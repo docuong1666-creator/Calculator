@@ -1,0 +1,27 @@
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#cal {
+    background-color:aliceblue;
+    width: 80%;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#display {
+    height: 15%;
+    background-color:antiquewhite;
+    font-size: 32px;
+    line-height: 70px;
+}
+
+#cal-btns {
+    display: flex;
+    flex-direction:column;
+    gap: 16px;
+    padding: 16px;
+}
