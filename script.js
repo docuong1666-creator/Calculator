@@ -87,7 +87,7 @@ operatorBtn.addEventListener('click', (event) => {
     number2 = +number2;
     let resultMath = operate(operator, number1, number2);
     display.textContent = resultMath;
-    number1 = resultMath;
+    number1 = '';
     number2 = '';
     operator = '';
 });
