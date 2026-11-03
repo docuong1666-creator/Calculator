@@ -14,8 +14,8 @@ function divide(a,b) {
     return a / b;
 };
 
-let number1 = 0;
-let number2 = 0;
+let number1 = '';
+let number2 = '';
 let operator = '';
 
 function operate(operator, number1, number2) {
@@ -44,30 +44,49 @@ const clearBtn = document.querySelector('.clear-btn');
 
 numberBtns.forEach( 
     button => button.addEventListener('click', (event) => {
-        display.textContent += event.target.innerText;
+        
+        if (!number1) {
+            display.textContent = '';
+        }
+        
         if ( !operator ) {
+            display.textContent += event.target.innerText;
             number1 += event.target.innerText;
-            console.log(`Number1: ${number1}`)
         } else if (operator) {
+            display.textContent += event.target.innerText;
             number2 += event.target.innerText;
-            console.log(`Number2: ${number2}`)
         }
 }));
 
 operateBtns.forEach(
     button => button.addEventListener('click', (event) => {
         let targetOperate = event.target.innerText;
-        display.textContent += " " + targetOperate + " ";
-        operator = targetOperate;
+        
+        if (!operator) {
+            operator = targetOperate;
+            display.textContent += " " + targetOperate + " ";
+        } else if (operator) {
+            number1 = +number1;
+            number2 = +number2;
+            let resultMath = operate(operator, number1, number2);
+            number1 = resultMath;
+            number2 = 0;
+            operator = targetOperate;
+            display.textContent = number1 + " " + operator + " ";
+        }
     })
 );
 
 operatorBtn.addEventListener('click', (event) => {
-    let targetOperator = event.target.innerText;
+    if (!number1) return display.textContent = "ERROR";
+    if (!number2) return display.textContent = number1;
     number1 = +number1;
     number2 = +number2;
     let resultMath = operate(operator, number1, number2);
-    display.textContent += " " + targetOperator + " " + resultMath;
+    display.textContent = resultMath;
+    number1 = resultMath;
+    number2 = 0;
+    operator = '';
 });
 
 clearBtn.addEventListener('click', (event) => {
