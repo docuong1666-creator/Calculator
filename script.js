@@ -65,12 +65,15 @@ operateBtns.forEach(
         if (!operator) {
             operator = targetOperate;
             display.textContent += " " + targetOperate + " ";
-        } else if (operator) {
+        } else if (operator && !number2) {
+            operator = targetOperate;
+            display.textContent = number1 + " " + operator + " "
+        }else if (operator && number2) {
             number1 = +number1;
             number2 = +number2;
             let resultMath = operate(operator, number1, number2);
             number1 = resultMath;
-            number2 = 0;
+            number2 = '';
             operator = targetOperate;
             display.textContent = number1 + " " + operator + " ";
         }
@@ -85,13 +88,13 @@ operatorBtn.addEventListener('click', (event) => {
     let resultMath = operate(operator, number1, number2);
     display.textContent = resultMath;
     number1 = resultMath;
-    number2 = 0;
+    number2 = '';
     operator = '';
 });
 
 clearBtn.addEventListener('click', (event) => {
     display.textContent = '';
-    number1 = 0;
-    number2 = 0;
+    number1 = '';
+    number2 = '';
     operator = '';
 });
