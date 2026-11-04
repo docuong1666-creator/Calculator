@@ -49,9 +49,10 @@ numberBtns.forEach(
             display.textContent = '';
         }
         
-        if ( !operator ) {
+        if (!operator) {
             display.textContent += event.target.innerText;
             number1 += event.target.innerText;
+            console.log(number1)
         } else if (operator) {
             display.textContent += event.target.innerText;
             number2 += event.target.innerText;
@@ -62,7 +63,9 @@ operateBtns.forEach(
     button => button.addEventListener('click', (event) => {
         let targetOperate = event.target.innerText;
         
-        if (!operator) {
+        if(!number1 && number1 !== 0) {
+            return display.textContent = 'Pick a number first';
+        }else if (!operator) {
             operator = targetOperate;
             display.textContent += " " + targetOperate + " ";
         } else if (operator && !number2) {
@@ -71,7 +74,7 @@ operateBtns.forEach(
         }else if (operator && number2) {
             number1 = +number1;
             number2 = +number2;
-            let resultMath = operate(operator, number1, number2);
+            let resultMath = operate(operator, number1, number2).toFixed(2);
             number1 = resultMath;
             number2 = '';
             operator = targetOperate;
@@ -81,11 +84,11 @@ operateBtns.forEach(
 );
 
 operatorBtn.addEventListener('click', (event) => {
-    if (!number1) return display.textContent = "ERROR";
+    if (!number1 & number1 !== 0) return display.textContent = "ERROR";
     if (!number2) return display.textContent = number1;
     number1 = +number1;
     number2 = +number2;
-    let resultMath = operate(operator, number1, number2);
+    let resultMath = operate(operator, number1, number2).toFixed(2);
     display.textContent = resultMath;
     number1 = '';
     number2 = '';
