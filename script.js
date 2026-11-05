@@ -63,8 +63,7 @@ const backSpaceBtn = document.querySelector('.backspace-btn');
 numberBtns.forEach( 
     button => button.addEventListener('click', (event) => {
         
-        if (operator === '=' && !number2) {
-            display.textContent = '';
+        if (!number1 || operator === '=' && !number2) {
             display.textContent = event.target.innerText;
             number1 = event.target.innerText;
             operator = '';
