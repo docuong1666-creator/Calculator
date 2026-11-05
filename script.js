@@ -36,24 +36,48 @@ function operate(operator, number1, number2) {
     }
 };
 
+function backSpace() {
+    if (number2) {
+        number2 = number2.slice(0,-1);
+        display.textContent = display.textContent.slice(0,-1);
+    } else if (!number2 && operator && operator !== '=') {
+        operator = '';
+        display.textContent = display.textContent.slice(0,-3);
+    } else if (!number2 && !operator && operator !== '=' && number1) {
+        number1 = number1.slice(0,-1);
+        display.textContent = display.textContent.slice(0,-1);
+    } else {
+        display.textContent = '';
+        number1 = '';
+        number2 = '';
+        operator = '';
+}};
+
 const display = document.querySelector('#display');
 const numberBtns = document.querySelectorAll('.number-btn');
 const operateBtns = document.querySelectorAll('.operate-btn');
 const operatorBtn = document.querySelector('.operator-btn');
 const clearBtn = document.querySelector('.clear-btn');
+const backSpaceBtn = document.querySelector('.backspace-btn');
 
 numberBtns.forEach( 
     button => button.addEventListener('click', (event) => {
         
-        if (!number1) {
+        if (operator === '=' && !number2) {
             display.textContent = '';
-        }
-        
-        if (!operator) {
+            display.textContent = event.target.innerText;
+            number1 = event.target.innerText;
+            operator = '';
+        } else if (!operator) {
+            if(number1.includes('.') && event.target.innerText === '.') {
+                return;
+            }
             display.textContent += event.target.innerText;
             number1 += event.target.innerText;
-            console.log(number1)
-        } else if (operator) {
+        } else if (operator && number1 && operator !== '=') {
+            if(number2.includes('.') && event.target.innerText === '.') {
+                return;
+            }
             display.textContent += event.target.innerText;
             number2 += event.target.innerText;
         }
@@ -62,7 +86,7 @@ numberBtns.forEach(
 operateBtns.forEach(
     button => button.addEventListener('click', (event) => {
         let targetOperate = event.target.innerText;
-        
+        console.log(number2);
         if(!number1 && number1 !== 0) {
             return display.textContent = 'Pick a number first';
         }else if (!operator) {
@@ -90,10 +114,18 @@ operatorBtn.addEventListener('click', (event) => {
     number2 = +number2;
     let resultMath = operate(operator, number1, number2).toFixed(2);
     display.textContent = resultMath;
-    number1 = '';
+    number1 = resultMath;
     number2 = '';
-    operator = '';
+    operator = '=';
 });
+
+backSpaceBtn.addEventListener('click', backSpace);
+document.addEventListener('keydown', (event) => {
+    if (event.key == 'Backspace') backSpace();
+})
+
+
+
 
 clearBtn.addEventListener('click', (event) => {
     display.textContent = '';
