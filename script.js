@@ -17,6 +17,7 @@ function divide(a,b) {
 let number1 = '';
 let number2 = '';
 let operator = '';
+let target ='';
 
 function operate(operator, number1, number2) {
     
@@ -53,39 +54,28 @@ function backSpace() {
         operator = '';
 }};
 
-const display = document.querySelector('#display');
-const numberBtns = document.querySelectorAll('.number-btn');
-const operateBtns = document.querySelectorAll('.operate-btn');
-const operatorBtn = document.querySelector('.operator-btn');
-const clearBtn = document.querySelector('.clear-btn');
-const backSpaceBtn = document.querySelector('.backspace-btn');
-
-numberBtns.forEach( 
-    button => button.addEventListener('click', (event) => {
-        
-        if (!number1 || operator === '=' && !number2) {
-            display.textContent = event.target.innerText;
-            number1 = event.target.innerText;
+function numberButton(event) {
+    if (!number1 || operator === '=' && !number2) {
+            display.textContent = target;
+            number1 = target;
             operator = '';
         } else if (!operator) {
-            if(number1.includes('.') && event.target.innerText === '.') {
+            if(number1.includes('.') && target === '.') {
                 return;
             }
-            display.textContent += event.target.innerText;
-            number1 += event.target.innerText;
+            display.textContent += target;
+            number1 += target;
         } else if (operator && number1 && operator !== '=') {
-            if(number2.includes('.') && event.target.innerText === '.') {
+            if(number2.includes('.') && target === '.') {
                 return;
             }
-            display.textContent += event.target.innerText;
-            number2 += event.target.innerText;
+            display.textContent += target;
+            number2 += target;
         }
-}));
+};
 
-operateBtns.forEach(
-    button => button.addEventListener('click', (event) => {
-        let targetOperate = event.target.innerText;
-        console.log(number2);
+function operateButton(event) {
+    let targetOperate = target;
         if(!number1 && number1 !== 0) {
             return display.textContent = 'Pick a number first';
         }else if (!operator) {
@@ -103,10 +93,9 @@ operateBtns.forEach(
             operator = targetOperate;
             display.textContent = number1 + " " + operator + " ";
         }
-    })
-);
+};
 
-operatorBtn.addEventListener('click', (event) => {
+function operatorButton(event) {
     if (!number1 & number1 !== 0) return display.textContent = "ERROR";
     if (!number2) return display.textContent = number1;
     number1 = +number1;
@@ -116,19 +105,53 @@ operatorBtn.addEventListener('click', (event) => {
     number1 = resultMath;
     number2 = '';
     operator = '=';
-});
+};
+
+function clearButton() {
+    display.textContent = '';
+    number1 = '';
+    number2 = '';
+    operator = '';
+};
+
+const display = document.querySelector('#display');
+const numberBtns = document.querySelectorAll('.number-btn');
+const operateBtns = document.querySelectorAll('.operate-btn');
+const operatorBtn = document.querySelector('.operator-btn');
+const clearBtn = document.querySelector('.clear-btn');
+const backSpaceBtn = document.querySelector('.backspace-btn');
+
+numberBtns.forEach( 
+    button => button.addEventListener('click', (event) => {
+        target = event.target.innerText
+        numberButton()
+    } ));
+
+operateBtns.forEach(
+    button => button.addEventListener('click', (event) => {
+        target = event.target.innerText
+        operateButton()
+    }));
+
+operatorBtn.addEventListener('click', operatorButton);
 
 backSpaceBtn.addEventListener('click', backSpace);
+
 document.addEventListener('keydown', (event) => {
     if (event.key == 'Backspace') backSpace();
+    if (['0','.','1','2','3','4','5','6','7','8','9'].includes(event.key)) {
+        target = event.key;
+        numberButton()
+    }
+    if (['+','-','*','/'].includes(event.key)) {
+        target = event.key;
+        operateButton()
+    }
+    if (event.key == '=' || event.key == 'Enter') operatorButton();
+    if ( event.key == 'c' ) clearButton();
 })
 
 
 
 
-clearBtn.addEventListener('click', (event) => {
-    display.textContent = '';
-    number1 = '';
-    number2 = '';
-    operator = '';
-});
+clearBtn.addEventListener('click', clearButton);
