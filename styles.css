@@ -1,11 +1,20 @@
+body {
+    margin: 0;
+}
+
 #container {
     display: flex;
     justify-content: center;
+    box-sizing:border-box;
+    background-color: #E0FFFF;
 }
 
 #cal {
     background-color:aliceblue;
-    width: 80%;
+    margin: 0;
+    padding: 0;
+    border: 5px solid black;
+    width: 60%;
     aspect-ratio: 1;
     display: flex;
     flex-direction: column;
@@ -13,10 +22,13 @@
 }
 
 #display {
-    height: 15%;
+    border: 5px solid grey;
+    border-width: 5px 0px;
+    height: 100px;
     background-color:antiquewhite;
     font-size: 32px;
-    line-height: 70px;
+    line-height: 100px;
+    vertical-align:middle;
 }
 
 #cal-btns {
@@ -25,3 +37,21 @@
     gap: 16px;
     padding: 16px;
 }
+
+#cal-btns button {
+    padding: 16px;
+    background-color:beige;
+    font-weight:bold;
+    font-size:large;
+    border-radius: 8px;
+    margin: 16px 16px;
+}
+
+.operate-btns button, .operator-btn {
+    width: 60px;
+}
+
+#number-btns button {
+    width: 60px;
+}
+
